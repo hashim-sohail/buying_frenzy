@@ -1,0 +1,127 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+"""Restaurant"""
+type Restaurant {
+  id: ID!
+  name: String
+  balance: Float
+  products: [Product!]
+  transactions: [Product!]
+  timings: [Product!]
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""Date custom scalar type"""
+scalar Date
+
+"""Product"""
+type Product {
+  id: ID
+  name: String
+  price: Float
+  restaurant: Restaurant
+  transactions: [Product!]
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""Transaction"""
+type Transaction {
+  id: ID!
+  amount: Float!
+  restaurant: Restaurant
+  product: Product
+  user: User
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""User"""
+type User {
+  id: ID!
+  name: String
+  balance: Float
+  transactions: [Transaction!]
+  createdAt: Date
+  updatedAt: Date
+}
+
+"""Timing"""
+type Timing {
+  id: ID!
+  day: String!
+  restaurant: Restaurant
+  restaurantId: String!
+  startTime: String!
+  endTime: String!
+  createdAt: Date
+  updatedAt: Date
+}
+
+type Query {
+  user(id: String!): User!
+  users(skip: Int = 0, take: Int = 25): [User!]!
+  restaurant(id: String!): Restaurant!
+  restaurants(skip: Int = 0, take: Int = 25): [Restaurant!]!
+  product(id: String!): Product!
+  products(skip: Int = 0, take: Int = 25): [Product!]!
+  timing(id: String!): Timing!
+  timings(skip: Int = 0, take: Int = 25): [Timing!]!
+  transaction(id: String!): Transaction!
+  transactions(skip: Int = 0, take: Int = 25): [Transaction!]!
+}
+
+type Mutation {
+  addUser(newUserData: NewUserInput!): User!
+  removeUser(id: String!): Boolean!
+  addRestaurant(newRestaurantData: NewRestaurantInput!): Restaurant!
+  removeRestaurant(id: String!): Boolean!
+  addProduct(newProductData: NewProductInput!): Product!
+  removeProduct(id: String!): Boolean!
+  addTiming(newTimingData: NewTimingInput!): Timing!
+  removeTiming(id: String!): Boolean!
+  addTransaction(newTransactionData: NewTransactionInput!): Transaction!
+  removeTransaction(id: String!): Boolean!
+}
+
+input NewUserInput {
+  name: String!
+  balance: Float
+}
+
+input NewRestaurantInput {
+  name: String!
+  balance: Float!
+}
+
+input NewProductInput {
+  name: String!
+  restaurantId: ID!
+  price: Float!
+}
+
+input NewTimingInput {
+  name: String!
+  startTime: String
+  endTime: String
+}
+
+input NewTransactionInput {
+  userId: String!
+  productId: String!
+  restaurantId: String!
+  amount: Float!
+}
+
+type Subscription {
+  userAdded: User!
+  restaurantAdded: Restaurant!
+  productAdded: Product!
+  timingAdded: Timing!
+  transactionAdded: Transaction!
+}
