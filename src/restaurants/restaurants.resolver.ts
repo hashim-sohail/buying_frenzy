@@ -2,6 +2,7 @@ import { NotFoundException } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { NewRestaurantInput } from './dto/new-restaurant.input';
+import { RestaurantTimingsArgs } from './dto/restaurant-timing.args';
 import { RestaurantsArgs } from './dto/restaurants.args';
 import { Restaurant } from './models/restaurant.model';
 import { RestaurantsService } from './restaurants.service';
@@ -24,6 +25,20 @@ export class RestaurantsResolver {
   @Query((returns) => [Restaurant])
   restaurants(@Args() restaurantsArgs: RestaurantsArgs): Promise<Restaurant[]> {
     return this.restaurantsService.findAll(restaurantsArgs);
+  }
+
+  @Query((returns) => [Restaurant])
+  restaurantsByTime(
+    @Args() restaurantsArgs: RestaurantTimingsArgs,
+  ): Promise<Restaurant[]> {
+    return this.restaurantsService.findAllByTiming(restaurantsArgs);
+  }
+
+  @Query((returns) => [Restaurant])
+  findAllByDishPrice(
+    @Args() restaurantsArgs: RestaurantsArgs,
+  ): Promise<Restaurant[]> {
+    return this.restaurantsService.findAllByDishPrice(restaurantsArgs);
   }
 
   @Mutation((returns) => Restaurant)

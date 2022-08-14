@@ -33,12 +33,12 @@ export class Restaurant {
 
   @OneToMany((type) => Transaction, (transaction) => transaction.restaurant)
   @JoinColumn({ name: 'restrauntId' })
-  @Field((type) => [Product], { nullable: true })
+  @Field((type) => [Transaction], { nullable: true })
   transactions?: Transaction[];
 
-  @OneToMany((type) => Product, (product) => product.restaurant)
+  @OneToMany((type) => Timing, (timing) => timing.restaurant)
   @JoinColumn({ name: 'restrauntId' })
-  @Field((type) => [Product], { nullable: true })
+  @Field((type) => [Timing], { nullable: true })
   timings?: Timing[];
 
   @Column({ nullable: true, default: new Date() })

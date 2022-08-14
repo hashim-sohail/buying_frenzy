@@ -4,20 +4,32 @@
 
 directive @upper on FIELD_DEFINITION
 
-"""Restaurant"""
-type Restaurant {
+"""Timing"""
+type Timing {
   id: ID!
-  name: String
-  balance: Float
-  products: [Product!]
-  transactions: [Product!]
-  timings: [Product!]
+  day: String!
+  restaurant: Restaurant
+  restaurantId: String!
+  startTime: String!
+  endTime: String!
   createdAt: Date
   updatedAt: Date
 }
 
 """Date custom scalar type"""
 scalar Date
+
+"""Restaurant"""
+type Restaurant {
+  id: ID!
+  name: String
+  balance: Float
+  products: [Product!]
+  transactions: [Transaction!]
+  timings: [Timing!]
+  createdAt: Date
+  updatedAt: Date
+}
 
 """Product"""
 type Product {
@@ -51,29 +63,24 @@ type User {
   updatedAt: Date
 }
 
-"""Timing"""
-type Timing {
-  id: ID!
-  day: String!
-  restaurant: Restaurant
-  restaurantId: String!
-  startTime: String!
-  endTime: String!
-  createdAt: Date
-  updatedAt: Date
-}
-
 type Query {
   user(id: String!): User!
   users(skip: Int = 0, take: Int = 25): [User!]!
   restaurant(id: String!): Restaurant!
-  restaurants(skip: Int = 0, take: Int = 25): [Restaurant!]!
+  restaurants(skip: Int = 0, take: Int = 25, maxPrice: Int = 99999, minPrice: Int = 0, dishCount: Int = 9999, operation: AllowedColor, search: String): [Restaurant!]!
+  restaurantsByTime(day: String!, time: String!): [Restaurant!]!
+  findAllByDishPrice(skip: Int = 0, take: Int = 25, maxPrice: Int = 99999, minPrice: Int = 0, dishCount: Int = 9999, operation: AllowedColor, search: String): [Restaurant!]!
   product(id: String!): Product!
   products(skip: Int = 0, take: Int = 25): [Product!]!
   timing(id: String!): Timing!
   timings(skip: Int = 0, take: Int = 25): [Timing!]!
   transaction(id: String!): Transaction!
   transactions(skip: Int = 0, take: Int = 25): [Transaction!]!
+}
+
+enum AllowedColor {
+  MORE
+  LESS
 }
 
 type Mutation {

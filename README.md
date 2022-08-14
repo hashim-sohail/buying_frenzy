@@ -58,4 +58,40 @@ CREATE DATABASE buying_frenzy;
 ```
 
 ## GraphQL Playground
-### The playground can be accessed at http://localhost:3000/graphql
+### The playground can be accessed at http://localhost:5001/graphql
+
+### APIs
+#### List all restaurants that are open at a certain datetime
+```
+  query{
+    restaurantsByTime(day:"Sunday", time:"16:00:00"){
+      id
+      name
+      timings{
+        id
+        day
+      }
+    }
+  }
+```
+
+#### List top y restaurants that have more or less than x number of dishes within a price range, ranked alphabetically. More or less (than x) is a parameter that the API allows the consumer to enter.
+```
+  query {
+    findAllByDishPrice(take: 4, maxPrice: 20, operation: LESS, dishCount: 3) {
+      id
+      name
+      balance
+    }
+  }
+```
+
+#### Search for restaurants or dishes by name, ranked by relevance to search term
+```
+  query{
+    restaurants(search:"Ha"){
+      id
+      name
+    }
+  }
+```
