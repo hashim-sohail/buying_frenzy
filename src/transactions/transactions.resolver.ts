@@ -35,7 +35,7 @@ export class TransactionsResolver {
     const transaction = await this.transactionsService.create(
       newTransactionData,
     );
-    pubSub.publish('transactionAdded', { transactionAdded: transaction });
+
     return transaction;
   }
 

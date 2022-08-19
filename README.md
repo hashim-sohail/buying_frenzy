@@ -95,3 +95,18 @@ CREATE DATABASE buying_frenzy;
     }
   }
 ```
+
+#### Process a user purchasing a dish from a restaurant, handling all relevant data changes in an atomic transaction. Do watch out for potential race conditions that can arise from concurrent transactions!
+```
+  mutation{
+    addTransaction(newTransactionData:{
+      amount: 13.29,
+      productId:"14fc5f69-bfd4-419e-a787-1249cd948038"
+      restaurantId:"0022c286-be0b-44b0-9d83-0172cbe559f6"
+      userId:"0003b696-cf5c-4d8b-8799-301302798c2d"
+    }){
+      id
+      amount
+    }
+  }
+```

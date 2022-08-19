@@ -34,4 +34,10 @@ export class UsersService {
   async remove(id: string): Promise<boolean> {
     return true;
   }
+
+  async updateBalance(id: string, balance: number) {
+    return this.userRepository.query(
+      `UPDATE "user" SET balance = (balance - ${balance}) WHERE id = '${id}'`,
+    );
+  }
 }

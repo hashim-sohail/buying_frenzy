@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { NewTransactionInput } from './dto/new-transaction.input';
 import { TransactionsArgs } from './dto/transactions.args';
 import { Transaction } from './models/transaction.model';
+import { UsersService } from '../users/users.service';
+import { RestaurantsService } from '../restaurants/restaurants.service';
 
 @Injectable()
 export class TransactionsService {
@@ -16,11 +18,17 @@ export class TransactionsService {
   constructor(
     @InjectRepository(Transaction)
     private readonly transactionRepository: Repository<Transaction>,
+    private readonly userService: UsersService,
+    private readonly restaurantService: RestaurantsService,
   ) {}
 
   async create(data: NewTransactionInput): Promise<Transaction> {
     this.transactionRepository.create(data);
-    return this.transactionRepository.save(data);
+    const result = this.transactionRepository.save(data);
+
+    await this.userService.updateBalance(data.userId, data.amount);
+    await this.restaurantService.updateBalance(data.userId, data.amount);
+    return result;
   }
 
   async findOneById(id: string): Promise<Transaction> {

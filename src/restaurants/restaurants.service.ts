@@ -1,12 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  Repository,
-  MoreThanOrEqual,
-  LessThanOrEqual,
-  Between,
-  Like,
-} from 'typeorm';
+import { Repository, MoreThanOrEqual, LessThanOrEqual, Like } from 'typeorm';
 import { NewRestaurantInput } from './dto/new-restaurant.input';
 import { RestaurantTimingsArgs } from './dto/restaurant-timing.args';
 import { RestaurantsArgs } from './dto/restaurants.args';
@@ -97,5 +91,11 @@ export class RestaurantsService {
 
   async remove(id: string): Promise<boolean> {
     return true;
+  }
+
+  async updateBalance(id: string, balance: number) {
+    return this.restaurantRepository.query(
+      `UPDATE restaurant SET balance = (balance + ${balance}) WHERE id = '${id}'`,
+    );
   }
 }
